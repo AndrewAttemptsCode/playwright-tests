@@ -10,8 +10,11 @@ test.beforeEach(async ({ page }) => {
 test("Log in", async ({ page }) => {
   await page.locator("#inputEmail1").fill("test@test.com");
   await page.locator("#inputPassword2").fill("password");
+  const radioButton = page.locator('label').filter({ hasText: /option 1/i });
+  await radioButton.click();
+  await expect(radioButton).toBeChecked();
   await page
     .locator('button[status="primary"]')
-    .getByText(/sign in/i)
+    .filter({ hasText: /sign in/i })
     .click();
 });
