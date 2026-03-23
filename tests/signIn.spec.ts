@@ -19,7 +19,7 @@ test("Log in", async ({ page }) => {
     .click();
 });
 
-test("Locate card email input via elements", async ({ page }) => {
+test("Narrowing with selectors", async ({ page }) => {
   const emailInput = page
     .locator("nb-card")
     .filter({ hasText: /using the grid/i })
@@ -27,4 +27,12 @@ test("Locate card email input via elements", async ({ page }) => {
 
   await emailInput.fill("email@email.com");
   await expect(emailInput).toHaveValue("email@email.com");
+
+  const passwordInput = page
+    .locator("nb-card")
+    .filter({ has: page.locator("#inputPassword2") })
+    .getByLabel(/password/i);
+
+  await passwordInput.fill("newpassword");
+  await expect(passwordInput).toHaveValue("newpassword");
 });
