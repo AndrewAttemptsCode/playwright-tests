@@ -42,6 +42,6 @@ test("Chaining filters", async ({ page }) => {
     .locator("nb-card")
     .filter({ has: page.getByRole("checkbox") })
     .filter({ hasText: /sign in/i })
-    .getByRole("button")
+    .getByRole("button", { name: /sign in/i })
     .click();
 });
