@@ -45,3 +45,34 @@ test("Chaining filters", async ({ page }) => {
     .getByRole("button", { name: /sign in/i })
     .click();
 });
+
+test("Fill out basic form", async ({ page }) => {
+  const basicForm = page
+    .locator("nb-card")
+    .filter({ hasText: /basic form/i });
+
+  // Confirm correct form is selected
+  await expect(basicForm).toHaveText(/basic form/i);
+
+  // Fill email field and confirm value
+  const emailField = basicForm.getByLabel(/email address/i);
+
+  await emailField.fill("email@email.com");
+  await expect(emailField).toHaveValue("email@email.com");
+
+  // Fill password field and confirm value
+  const passwordField = basicForm.getByLabel(/password/i);
+
+  await passwordField.fill("newpassword");
+  await expect(passwordField).toHaveValue("newpassword");
+
+  // Check the checkbox
+  const checkBox = basicForm.locator("label").filter({ hasText: /check me out/i });
+  
+  await checkBox.click();
+  await expect(checkBox).toBeChecked();
+
+  // Submit login
+  const submitButton = basicForm.getByRole("button", { name: /submit/i });
+  await submitButton.click();
+});
