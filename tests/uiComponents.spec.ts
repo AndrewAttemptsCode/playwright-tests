@@ -49,3 +49,36 @@ test.describe("Form layouts page", () => {
     await expect(radioButton1).not.toBeChecked();
   });
 });
+
+test.describe("Modal & Overlays page", () => {
+  test.beforeEach(async({ page }) => {
+    await page.getByRole("link", { name: /modal & overlays/i }).click();
+    await page.getByRole("link", { name: /toastr/i }).click();
+  });
+
+  test("Checkboxes", async({ page }) => {
+    // Uncheck first checkbox
+    const firstCheckbox = page.getByRole("checkbox", { name: /hide on click/i });
+    await firstCheckbox.uncheck({ force: true });
+    await expect(firstCheckbox).not.toBeChecked();
+
+    // Check second checkbox
+    const secondCheckbox = page.getByRole("checkbox", { name: /prevent arising/i });
+    await secondCheckbox.check({ force: true });
+    await expect(secondCheckbox).toBeChecked();
+
+    // Check ALL checkboxes
+    const allCheckboxes = page.getByRole("checkbox");
+    for (const checkbox of await allCheckboxes.all()) {
+      await checkbox.check({ force: true });
+      await expect(checkbox).toBeChecked();
+    };
+
+    // Uncheck ALL checkboxes
+    for (const checkbox of await allCheckboxes.all()) {
+      await checkbox.uncheck({ force: true });
+      await expect(checkbox).not.toBeChecked();
+    };
+
+  });
+})
