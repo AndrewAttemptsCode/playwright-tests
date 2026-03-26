@@ -145,3 +145,29 @@ test.describe("Tooltips", () => {
     await expect(tooltip).toBeHidden();
   });
 });
+
+test.describe("Dialog boxes", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.getByRole("link", { name: /tables & data/i }).click();
+    await page.getByRole("link", { name: /smart table/i }).click();
+  });
+  
+  test("Interact with browser dialog box", async ({ page }) => {
+    // Browser API event listener for dialog pop up
+    page.on("dialog", dialog => {
+      expect(dialog.message()).toEqual("Are you sure you want to delete?");
+      dialog.accept();
+    });
+    
+    // Identify smart table
+    const table = page.getByRole("table");
+    // Identify first table row via username
+    const tableRow = table.locator("tr").filter({ hasText: /@mdo/i });
+    // Identify remove table row button via class name
+    const removeButton = tableRow.locator(".nb-trash");
+    // Click remove table row button
+    await removeButton.click();
+    // Expect table row to no longer be in the table
+    await expect(tableRow).not.toBeVisible();
+  });
+});
