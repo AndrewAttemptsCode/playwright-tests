@@ -120,5 +120,28 @@ test.describe("Lists and Dropdowns", () => {
       await expect(header).toHaveCSS("background-color", bgColor);
     }
   });
-  
+});
+
+test.describe("Tooltips", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.getByRole("link", { name: /modal & overlays/i }).click();
+    await page.getByRole("link", { name: /tooltip/i }).click();
+  });
+
+  test("Tooltip on button hover", async ({ page }) => {
+    // Locate card with tooltip buttons
+    const card = page.locator("nb-card").filter({ hasText: /tooltip placements/i });
+    // Identify top button
+    const button = card.getByRole("button", { name: /top/i });
+    // Apply hover state to the button
+    await button.hover();
+    // Locate the tooltip element
+    const tooltip = page.locator("nb-tooltip");
+    // Expect tooltip to be active on element hover
+    await expect(tooltip).toHaveText(/this is a tooltip/i);
+    // Move mouse away from button element to remove hover state
+    await page.mouse.move(0, 0);
+    // Expect tooltip to be inactive
+    await expect(tooltip).toBeHidden();
+  });
 });
