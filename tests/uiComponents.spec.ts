@@ -227,4 +227,26 @@ test.describe("Web tables", () => {
     // Expect email to be updated to latest value
     await expect(emailData).toHaveText("test@test.com");
   });
+
+  test("Filtering by age input", async ({ page }) => {
+    const ages = ["20", "30", "40", "200"];
+    const ageFilter = page.locator("input-filter").getByPlaceholder("Age");
+    
+    for (const age of ages) {
+      await ageFilter.clear();
+      await ageFilter.fill(age);
+      await page.waitForTimeout(500);
+      const tableRows = page.locator("tbody").getByRole("row");
+      
+      for (const row of await tableRows.all()) {
+        const ageValue = row.locator("td:nth-child(7)");
+        if (age === "200") {
+          await expect(tableRows).toHaveText("No data found");
+        } else {
+          await expect(ageValue).toHaveText(age); 
+        }
+      };
+    };
+
+  });
 });
