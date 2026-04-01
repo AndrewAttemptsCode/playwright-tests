@@ -2,21 +2,65 @@ import { expect, type Page, type Locator } from "@playwright/test";
 
 class SideNav {
   readonly page: Page;
-  readonly formsLink: Locator;
   readonly formLayoutsLink: Locator;
   readonly formLayoutsHeader: Locator;
+  readonly datepickerLink: Locator;
+  readonly datepickerHeader: Locator;
+  readonly smartTableLink: Locator;
+  readonly smartTableHeader: Locator;
+  readonly toastrLink: Locator;
+  readonly toastrHeader: Locator;
+  readonly tooltipLink: Locator;
+  readonly tooltipHeader: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.formsLink = page.getByRole("link", { name: /forms/i });
     this.formLayoutsLink = page.getByRole("link", { name: /form layouts/i });
     this.formLayoutsHeader = page.locator("nb-card-header", { hasText: /using the grid/i });
+    this.datepickerLink = page.getByRole("link", { name: /datepicker/i });
+    this.datepickerHeader = page.locator("nb-card-header", { hasText: /common datepicker/i });
+    this.smartTableLink = page.getByRole("link", { name: /smart table/i });
+    this.smartTableHeader = page.locator("nb-card-header", { hasText: /smart table/i });
+    this.toastrLink = page.getByRole("link", { name: /toastr/i });
+    this.toastrHeader = page.locator("nb-card-header", { hasText: /toaster configuration/i });
+    this.tooltipLink = page.getByRole("link", { name: /tooltip/i });
+    this.tooltipHeader = page.locator("nb-card-header", { hasText: /tooltip with icon/i });
   }
 
   async navFormLayouts() {
-    await this.formsLink.click();
+    await this.selectNavGroupLink("Forms");
     await this.formLayoutsLink.click();
     await expect(this.formLayoutsHeader).toBeVisible();
+  }
+
+  async navDatepicker() {
+    await this.selectNavGroupLink("Forms");
+    await this.datepickerLink.click();
+    await expect(this.datepickerHeader).toBeVisible();
+  }
+
+  async navSmartTable() {
+    await this.selectNavGroupLink("Tables & Data");
+    await this.smartTableLink.click();
+    await expect(this.smartTableHeader).toBeVisible();
+  }
+
+  async navToastr() {
+    await this.selectNavGroupLink("Modal & Overlays");
+    await this.toastrLink.click();
+    await expect(this.toastrHeader).toBeVisible();
+  }
+
+  async navTooltip() {
+    await this.selectNavGroupLink("Modal & Overlays");
+    await this.tooltipLink.click();
+    await expect(this.tooltipHeader).toBeVisible();
+  }
+
+  private async selectNavGroupLink(linkTitle: string) {
+    const groupNavLink = this.page.getByRole("link", { name: linkTitle });
+    const linkExpanded = await groupNavLink.getAttribute("aria-expanded");
+    if (linkExpanded === "false") await groupNavLink.click();
   }
 
 }
