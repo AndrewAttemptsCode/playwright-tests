@@ -9,3 +9,12 @@ test("Navigate to form layouts page", async ({ page }) => {
   const navigate = new SideNav(page);
   await navigate.navFormLayouts();
 });
+
+test("Navigate to multiple group links with sublinks", async ({ page }) => {
+  const navigate = new SideNav(page);
+  await navigate.navFormLayouts();
+  await navigate.navDatepicker();
+  await navigate.navSmartTable();
+  await navigate.navToastr();
+  await navigate.navTooltip();
+});
