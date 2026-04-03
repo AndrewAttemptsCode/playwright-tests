@@ -1,7 +1,7 @@
 import { expect, type Page, type Locator } from "@playwright/test";
+import BaseHelper from "./BaseHelper";
 
-class SideNav {
-  readonly page: Page;
+class SideNav extends BaseHelper {
   readonly formLayoutsLink: Locator;
   readonly formLayoutsHeader: Locator;
   readonly datepickerLink: Locator;
@@ -14,22 +14,23 @@ class SideNav {
   readonly tooltipHeader: Locator;
 
   constructor(page: Page) {
-    this.page = page;
-    this.formLayoutsLink = page.getByRole("link", { name: /form layouts/i });
-    this.formLayoutsHeader = page.locator("nb-card-header", { hasText: /using the grid/i });
-    this.datepickerLink = page.getByRole("link", { name: /datepicker/i });
-    this.datepickerHeader = page.locator("nb-card-header", { hasText: /common datepicker/i });
-    this.smartTableLink = page.getByRole("link", { name: /smart table/i });
-    this.smartTableHeader = page.locator("nb-card-header", { hasText: /smart table/i });
-    this.toastrLink = page.getByRole("link", { name: /toastr/i });
-    this.toastrHeader = page.locator("nb-card-header", { hasText: /toaster configuration/i });
-    this.tooltipLink = page.getByRole("link", { name: /tooltip/i });
-    this.tooltipHeader = page.locator("nb-card-header", { hasText: /tooltip with icon/i });
+    super(page);
+    this.formLayoutsLink = this.page.getByRole("link", { name: /form layouts/i });
+    this.formLayoutsHeader = this.page.locator("nb-card-header", { hasText: /using the grid/i });
+    this.datepickerLink = this.page.getByRole("link", { name: /datepicker/i });
+    this.datepickerHeader = this.page.locator("nb-card-header", { hasText: /common datepicker/i });
+    this.smartTableLink = this.page.getByRole("link", { name: /smart table/i });
+    this.smartTableHeader = this.page.locator("nb-card-header", { hasText: /smart table/i });
+    this.toastrLink = this.page.getByRole("link", { name: /toastr/i });
+    this.toastrHeader = this.page.locator("nb-card-header", { hasText: /toaster configuration/i });
+    this.tooltipLink = this.page.getByRole("link", { name: /tooltip/i });
+    this.tooltipHeader = this.page.locator("nb-card-header", { hasText: /tooltip with icon/i });
   }
 
   async formLayoutsPage() {
     await this.selectNavGroupLink("Forms");
     await this.formLayoutsLink.click();
+    await this.waitForLoad();
     await expect(this.formLayoutsHeader).toBeVisible();
   }
 
