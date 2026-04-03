@@ -1,6 +1,5 @@
-import { test, expect } from "@playwright/test";
-import SideNav from "../pageObjects/SideNav";
-import DatePickerPage from "../pageObjects/DatePickerPage";
+import { test } from "@playwright/test";
+import PageManager from "../pageObjects/PageManager";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:4200/");
@@ -8,21 +7,19 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Date picker tests", () => {
   test("Single date, n days from today", async ({ page }) => {
-    const navigate = new SideNav(page);
-    await navigate.navDatepicker();
+    const pm = new PageManager(page);
+    await pm.navigateTo().datepickerPage();
 
-    const datePicker = new DatePickerPage(page);
-    await datePicker.daysFromToday(10);
-    await datePicker.daysFromToday(30);
+    await pm.onDatePickerPage().daysFromToday(10);
+    await pm.onDatePickerPage().daysFromToday(30);
   });
 
   test("Range dates, n days from today", async ({ page })=> {
-    const navigate = new SideNav(page);
-    await navigate.navDatepicker();
+    const pm = new PageManager(page);
+    await pm.navigateTo().datepickerPage();
 
-    const datePicker = new DatePickerPage(page);
-    await datePicker.rangeFromToday(2, 5);
-    await datePicker.rangeFromToday(5, 62);
+    await pm.onDatePickerPage().rangeFromToday(2, 5);
+    await pm.onDatePickerPage().rangeFromToday(5, 62);
   });
 
 });
