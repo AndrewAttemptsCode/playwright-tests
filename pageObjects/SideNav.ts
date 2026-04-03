@@ -27,31 +27,31 @@ class SideNav {
     this.tooltipHeader = page.locator("nb-card-header", { hasText: /tooltip with icon/i });
   }
 
-  async navFormLayouts() {
+  async formLayoutsPage() {
     await this.selectNavGroupLink("Forms");
     await this.formLayoutsLink.click();
     await expect(this.formLayoutsHeader).toBeVisible();
   }
 
-  async navDatepicker() {
+  async datepickerPage() {
     await this.selectNavGroupLink("Forms");
     await this.datepickerLink.click();
     await expect(this.datepickerHeader).toBeVisible();
   }
 
-  async navSmartTable() {
+  async smartTablePage() {
     await this.selectNavGroupLink("Tables & Data");
     await this.smartTableLink.click();
     await expect(this.smartTableHeader).toBeVisible();
   }
 
-  async navToastr() {
+  async toastrPage() {
     await this.selectNavGroupLink("Modal & Overlays");
     await this.toastrLink.click();
     await expect(this.toastrHeader).toBeVisible();
   }
 
-  async navTooltip() {
+  async tooltipPage() {
     await this.selectNavGroupLink("Modal & Overlays");
     await this.tooltipLink.click();
     await expect(this.tooltipHeader).toBeVisible();
