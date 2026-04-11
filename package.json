@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "type": "module",
+  "scripts": {
+    "testForms-chrome": "npx playwright test formLayouts.spec.ts --project=chromium",
+    "testForms-firefox": "npx playwright test formLayouts.spec.ts --project=firefox",
+    "testForms-all": "npm run testForms-chrome && npm run testForms-firefox"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AndrewAttemptsCode/playwright-tests.git"
