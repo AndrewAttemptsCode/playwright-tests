@@ -7,16 +7,16 @@ test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:4200/");
 });
 
-test("'Using the grid' login", async ({ page }) => {
+test("'Using the grid' login", async ({ page }, testInfo) => {
   const pm = new PageManager(page);
   await pm.navigateTo().formLayoutsPage();
 
   await pm.onFormLayoutsPage().signinGrid("email@email.com", "password123", "Option 1");
   // Take screenshot of whole app and save to path
-  await page.screenshot({ path: "screenshots/formLogin.png" });
+  await page.screenshot({ path: testInfo.outputPath("formLogin.png") });
 });
 
-test("'Inline form' login", async ({ page }) => {
+test("'Inline form' login", async ({ page }, testInfo) => {
   const pm = new PageManager(page);
   await pm.navigateTo().formLayoutsPage();
 
@@ -27,7 +27,7 @@ test("'Inline form' login", async ({ page }) => {
     const userEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${faker.number.int(1000)}@test.com`;
     await pm.onFormLayoutsPage().signinInline(fullName, userEmail, true);
     // Take screenshot by narrowing with locator and save to path
-    await page.locator("nb-card", { hasText: /inline form/i }).screenshot({ path: `screenshots/inlineForm-${i}.png` });
+    await page.locator("nb-card", { hasText: /inline form/i }).screenshot({ path: testInfo.outputPath(`inlineForm-${i}.png`) });
     // Take screenshot and save in memory
     const buffer = await page.locator("nb-card", { hasText: /inline form/i }).screenshot();
   }
