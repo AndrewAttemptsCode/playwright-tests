@@ -12,6 +12,8 @@ test("'Using the grid' login", async ({ page }) => {
   await pm.navigateTo().formLayoutsPage();
 
   await pm.onFormLayoutsPage().signinGrid("email@email.com", "password123", "Option 1");
+  // Take screenshot of whole app and save to path
+  await page.screenshot({ path: "screenshots/formLogin.png" });
 });
 
 test("'Inline form' login", async ({ page }) => {
@@ -24,5 +26,9 @@ test("'Inline form' login", async ({ page }) => {
     const fullName = `${firstName} ${lastName}`;
     const userEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${faker.number.int(1000)}@test.com`;
     await pm.onFormLayoutsPage().signinInline(fullName, userEmail, true);
+    // Take screenshot by narrowing with locator and save to path
+    await page.locator("nb-card", { hasText: /inline form/i }).screenshot({ path: `screenshots/inlineForm-${i}.png` });
+    // Take screenshot and save in memory
+    const buffer = await page.locator("nb-card", { hasText: /inline form/i }).screenshot();
   }
 });
