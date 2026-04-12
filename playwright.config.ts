@@ -30,6 +30,8 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    // Record tests in video format - good for debugging (also is attached to test reports)
+    // video: 'on'
   },
 
   /* Configure projects for major browsers */
