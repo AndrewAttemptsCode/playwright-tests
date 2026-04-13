@@ -1,7 +1,13 @@
 import { test, expect } from "@playwright/test";
 
+const UiTestingUrl = process.env.UI_TESTING_URL;
+
+if (!UiTestingUrl) {
+  throw new Error("UI testing url env var is missing");
+}
+
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://uitestingplayground.com/ajax");
+  await page.goto(UiTestingUrl);
 });
 
 test("auto wait for data", async ({ page }) => {
