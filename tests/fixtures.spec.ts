@@ -22,5 +22,10 @@ test.describe("Fixture tests", () => {
   
     await formLayoutsPage.signinInline(fullName, userEmail, true);
   });
+
+  test("'Using the grid' login using page manager fixture", async ({ pageManager }) => {
+    await pageManager.navigateTo().formLayoutsPage();
+    await pageManager.onFormLayoutsPage().signinGrid(formEmail, formPassword, "Option 2");
+  });
 });
 
