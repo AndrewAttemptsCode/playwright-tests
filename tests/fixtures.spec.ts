@@ -1,5 +1,4 @@
-import { test } from "@playwright/test";
-import PageManager from "../pageObjects/PageManager";
+import { test } from "../test-options";
 import { faker } from "@faker-js/faker";
 
 const formEmail = process.env.FORM_EMAIL;
@@ -10,27 +9,18 @@ if (!formEmail || !formPassword) {
 }
 
 test.describe("Fixture tests", () => {
-  let pm: PageManager;
-
-  test.beforeEach(async ({ page }) => {
-    pm = new PageManager(page);
-    await page.goto("/");
+  
+  test("'Using the grid' login", async ({ formLayoutsPage }) => {
+    await formLayoutsPage.signinGrid(formEmail, formPassword, "Option 1");
   });
   
-  test("'Using the grid' login", async () => {
-    await pm.navigateTo().formLayoutsPage();
-    await pm.onFormLayoutsPage().signinGrid(formEmail, formPassword, "Option 1");
-  });
-  
-  test("'Inline form' login", async () => {
-    await pm.navigateTo().formLayoutsPage();
-  
+  test("'Inline form' login", async ({ formLayoutsPage }) => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
     const fullName = `${firstName} ${lastName}`;
     const userEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${faker.number.int(1000)}@test.com`;
   
-    await pm.onFormLayoutsPage().signinInline(fullName, userEmail, true);
+    await formLayoutsPage.signinInline(fullName, userEmail, true);
   });
 });
 
