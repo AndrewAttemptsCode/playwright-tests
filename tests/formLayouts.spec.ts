@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
 
-test("'Using the grid' login", async ({ page }, testInfo) => {
+test("'Using the grid' login @smoke @regression", async ({ page }, testInfo) => {
   const pm = new PageManager(page);
   await pm.navigateTo().formLayoutsPage();
 
@@ -22,7 +22,7 @@ test("'Using the grid' login", async ({ page }, testInfo) => {
   await page.screenshot({ path: testInfo.outputPath("formLogin.png") });
 });
 
-test("'Inline form' login", async ({ page }, testInfo) => {
+test("'Inline form' login @regression @ui", async ({ page }, testInfo) => {
   const pm = new PageManager(page);
   await pm.navigateTo().formLayoutsPage();
 
