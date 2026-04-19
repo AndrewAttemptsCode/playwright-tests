@@ -28,42 +28,58 @@ class SideNav extends BaseHelper {
   }
 
   async formLayoutsPage(isMobile: boolean) {
-    if (isMobile) {
-      await this.page.locator(".sidebar-toggle").click();
-    }
+    await this.isMobileDevice(isMobile);
 
     await this.selectNavGroupLink("Forms");
     await this.formLayoutsLink.click();
 
-    if (isMobile) {
-      await this.page.locator(".sidebar-toggle").click();
-    }
+    await this.isMobileDevice(isMobile);
 
     await this.waitForLoad();
     await expect(this.formLayoutsHeader).toBeVisible();
   }
 
-  async datepickerPage() {
+  async datepickerPage(isMobile: boolean) {
+    await this.isMobileDevice(isMobile);
+
     await this.selectNavGroupLink("Forms");
     await this.datepickerLink.click();
+
+    await this.isMobileDevice(isMobile);
+
     await expect(this.datepickerHeader).toBeVisible();
   }
 
-  async smartTablePage() {
+  async smartTablePage(isMobile: boolean) {
+    await this.isMobileDevice(isMobile);
+
     await this.selectNavGroupLink("Tables & Data");
     await this.smartTableLink.click();
+
+    await this.isMobileDevice(isMobile);
+
     await expect(this.smartTableHeader).toBeVisible();
   }
 
-  async toastrPage() {
+  async toastrPage(isMobile: boolean) {
+    await this.isMobileDevice(isMobile);
+
     await this.selectNavGroupLink("Modal & Overlays");
     await this.toastrLink.click();
+
+    await this.isMobileDevice(isMobile);
+
     await expect(this.toastrHeader).toBeVisible();
   }
 
-  async tooltipPage() {
+  async tooltipPage(isMobile: boolean) {
+    await this.isMobileDevice(isMobile);
+
     await this.selectNavGroupLink("Modal & Overlays");
     await this.tooltipLink.click();
+
+    await this.isMobileDevice(isMobile);
+
     await expect(this.tooltipHeader).toBeVisible();
   }
 
@@ -71,6 +87,12 @@ class SideNav extends BaseHelper {
     const groupNavLink = this.page.getByRole("link", { name: linkTitle });
     const linkExpanded = await groupNavLink.getAttribute("aria-expanded");
     if (linkExpanded === "false") await groupNavLink.click();
+  }
+
+  private async isMobileDevice(isMobile: boolean) {
+    if (isMobile) {
+      await this.page.locator(".sidebar-toggle").click();
+    }
   }
 
 }
