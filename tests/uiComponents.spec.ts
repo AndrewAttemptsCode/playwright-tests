@@ -7,14 +7,8 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Form layouts page", () => {
   test.beforeEach(async ({ page, isMobile }) => {
-    if (isMobile) {
-      await page.locator(".sidebar-toggle").click();
-    }
-    await page.getByRole("link", { name: /forms/i }).click();
-    await page.getByRole("link", { name: /form layouts/i }).click();
-    if (isMobile) {
-      await page.locator(".sidebar-toggle").click();
-    }
+    const pm = new PageManager(page);
+    await pm.navigateTo().formLayoutsPage(isMobile);
   });
 
   test("Input fields", async ({ page }) => {
@@ -33,7 +27,7 @@ test.describe("Form layouts page", () => {
     await expect(emailField).toHaveValue("test@test.com");
   });
 
-  test("Radio buttons", async ({ page }) => {
+  test.only("Radio buttons", async ({ page }) => {
     const loginForm = page
       .locator("nb-card")
       .filter({ hasText: /using the grid/i });
@@ -44,6 +38,13 @@ test.describe("Form layouts page", () => {
 
     // Validate radio option 1 is checked
     await expect(radioButton1).toBeChecked();
+
+    // Visual Testing with toHaveScreenshot();
+    // npx playwright test --update-snapshots - generates screenshots of expected results
+    // Can be flaky if snapshot taken whilst headless and then running test as headed
+    // This is because of the layout shift caused by page scrollbar
+    // Could use maxDiffPixels option but is far too much diffing generated from scrollbar
+    await expect(loginForm).toHaveScreenshot();
 
     // Check radio option 2
     const radioButton2 = loginForm.getByRole("radio", { name: /option 2/i });
