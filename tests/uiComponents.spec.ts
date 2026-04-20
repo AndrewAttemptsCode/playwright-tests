@@ -60,14 +60,8 @@ test.describe("Form layouts page", () => {
 
 test.describe("Modal & Overlays page", () => {
   test.beforeEach(async ({ page, isMobile }) => {
-    if (isMobile) {
-      await page.locator(".sidebar-toggle").click();
-    }
-    await page.getByRole("link", { name: /modal & overlays/i }).click();
-    await page.getByRole("link", { name: /toastr/i }).click();
-    if (isMobile) {
-      await page.locator(".sidebar-toggle").click();
-    }
+    const pm = new PageManager(page);
+    await pm.navigateTo().toastrPage(isMobile);
   });
 
   test("Checkboxes", async ({ page }) => {
@@ -139,14 +133,8 @@ test.describe("Lists and Dropdowns", () => {
 
 test.describe("Tooltips", () => {
   test.beforeEach(async ({ page, isMobile }) => {
-    if (isMobile) {
-      await page.locator(".sidebar-toggle").click();
-    }
-    await page.getByRole("link", { name: /modal & overlays/i }).click();
-    await page.getByRole("link", { name: /tooltip/i }).click();
-    if (isMobile) {
-      await page.locator(".sidebar-toggle").click();
-    }
+    const pm = new PageManager(page);
+    await pm.navigateTo().tooltipPage(isMobile);
   });
 
   test("Tooltip on button hover", async ({ page }) => {
@@ -169,14 +157,8 @@ test.describe("Tooltips", () => {
 
 test.describe("Dialog boxes", () => {
   test.beforeEach(async ({ page, isMobile }) => {
-    if (isMobile) {
-      await page.locator(".sidebar-toggle").click();
-    }
-    await page.getByRole("link", { name: /tables & data/i }).click();
-    await page.getByRole("link", { name: /smart table/i }).click();
-    if (isMobile) {
-      await page.locator(".sidebar-toggle").click();
-    }
+    const pm = new PageManager(page);
+    await pm.navigateTo().smartTablePage(isMobile);
   });
   
   test("Interact with browser dialog box", async ({ page }) => {
