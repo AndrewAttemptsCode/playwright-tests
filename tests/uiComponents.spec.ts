@@ -27,7 +27,7 @@ test.describe("Form layouts page", () => {
     await expect(emailField).toHaveValue("test@test.com");
   });
 
-  test.only("Radio buttons", async ({ page }) => {
+  test("Radio buttons", async ({ page }) => {
     const loginForm = page
       .locator("nb-card")
       .filter({ hasText: /using the grid/i });
